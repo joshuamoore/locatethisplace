@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+%html
+%head
+  %title MrScrapey
+
+  = stylesheet_link_tag    "application", :media => "all"
+  = javascript_include_tag "application"
+  = csrf_meta_tags
+
+%body
+  .navbar.navbar-fixed-top
+    .navbar-inner
+      .container
+        .brand Mr Scrapey
+        %ul.nav
+          %li.active
+            %a Find a location
+        -#%form.navbar-form.pull-right
+          %input.search-query{ :type => 'text', :placeholder => 'Search' }
+
+  .container
+    .row
+      .span3
+        = render :partial => 'layouts/sidebar'
+      .span9
+        = yield

@@ -1,0 +1,19 @@
+Enter a the name of a school to see the location of the buildings on it's campus.
+%br
+%br
+  #search_schools
+  = form_for :locates do |f|
+    %input.search-query{ :type => 'text', :placeholder => 'School name' }
+    %button.btn{ :style => 'margin-top:-10px;' } Search
+
+
+
+-#- url = "http://www.placekeeper.com/Alabama/Samford_University-120474.html"
+-#- doc = Nokogiri::HTML(open(url))
+-#= doc.at_css("td").text
+-#- doc.css(".subtitle").each do |item|
+  = item
+  - title = item.at_css(".prodLink").text
+  - price = item.at_css(".PriceCompare .BodyS, .PriceXLBold").text[/\$[0-9\.]+/]
+  = "#{title} - #{price}"
+  = item.at_css(".prodLink")[:href]
