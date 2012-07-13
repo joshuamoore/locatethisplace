@@ -1,5 +1,9 @@
 MrScrapey::Application.routes.draw do
-  resources :locates
+  resources :locates do
+    collection do
+      get 'find_school'
+    end
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

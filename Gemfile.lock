@@ -41,6 +41,8 @@ GEM
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
+    geokit (1.6.5)
+      multi_json
     haml (3.1.6)
     hike (1.2.1)
     i18n (0.6.0)
@@ -121,6 +123,7 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-rails (~> 3.2.1)
+  geokit
   haml
   jquery-rails
   make_resourceful

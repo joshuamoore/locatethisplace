@@ -1,19 +1,26 @@
-Enter a the name of a school to see the location of the buildings on it's campus.
+:javascript
+  var school_list = function() {
+    var school_search_text = $('#school_search_text').val();
+    $('#search_results').append('#{image_tag 'input_loader.gif'}');
+
+    if(school_search_text) {
+      $.get('locates/find_school?url=' + school_search_text, function(results) {
+        $('#search_results').html('');
+        $('#search_results').append(results);
+      });
+    } else {
+      alert('You must enter a URL');
+    }
+  }
+
+Enter a the URL of a school from placekeeper.com to find it's coordinates.
 %br
 %br
   #search_schools
-  = form_for :locates do |f|
-    %input.search-query{ :type => 'text', :placeholder => 'School name' }
-    %button.btn{ :style => 'margin-top:-10px;' } Search
+    %input.search-query{ :id => 'school_search_text', :type => 'text', :placeholder => 'School URL', :style => 'width:700px;' }
+    %button.btn{ :style => 'margin-top:-10px;', :onclick => 'school_list();' } Search
 
+  %br
+  %br
+  #search_results
 
-
--#- url = "http://www.placekeeper.com/Alabama/Samford_University-120474.html"
--#- doc = Nokogiri::HTML(open(url))
--#= doc.at_css("td").text
--#- doc.css(".subtitle").each do |item|
-  = item
-  - title = item.at_css(".prodLink").text
-  - price = item.at_css(".PriceCompare .BodyS, .PriceXLBold").text[/\$[0-9\.]+/]
-  = "#{title} - #{price}"
-  = item.at_css(".prodLink")[:href]

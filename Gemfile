@@ -27,6 +27,7 @@ gem 'make_resourceful'
 gem 'haml'
 gem 'sass'
 gem 'nokogiri'
+gem 'geokit'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
