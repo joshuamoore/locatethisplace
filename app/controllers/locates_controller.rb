@@ -22,7 +22,7 @@ class LocatesController < ApplicationController
 
         result += "#{doc.css(".title").text}|#{latitude}|#{longitude}|#{address.street_address}|#{address.city}|#{address.state}|#{address.zip},"
 
-        limit = 4
+        limit = 2
         result = recurse_locations(doc, slug, result, limit)
 
         render :text => result
