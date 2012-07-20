@@ -1,17 +1,45 @@
 :javascript
   var school_list = function() {
     var school_search_text = $('#school_search_text').val();
-    $('#search_results').append('#{image_tag 'input_loader.gif'}');
+
+    var target = $('#search_results');
+    var spinner = new Spinner(opts).spin(target);
+    target.append(spinner.el);
 
     if(school_search_text) {
       $.get('locates/find_school?url=' + school_search_text, function(results) {
         $('#search_results').html('');
-        $('#search_results').append(results);
+
+        var display_results = results.split(',');
+
+        for (count in display_results) {
+          if(count % 2 == 0)
+            $('#search_results').append("<p class='stripe'>" + display_results[count].split('|').join(' ') + "</p>");
+          else
+            $('#search_results').append("<p>" + display_results[count].split('|').join(' ') + "</p>");
+        }
       });
     } else {
       alert('You must enter a URL');
     }
   }
+
+  var opts = {
+    lines: 11, // The number of lines to draw
+    length: 11, // The length of each line
+    width: 3, // The line thickness
+    radius: 10, // The radius of the inner circle
+    rotate: 0, // The rotation offset
+    color: '#000', // #rgb or #rrggbb
+    speed: 1, // Rounds per second
+    trail: 100, // Afterglow percentage
+    shadow: true, // Whether to render a shadow
+    hwaccel: true, // Whether to use hardware acceleration
+    className: 'spinner', // The CSS class to assign to the spinner
+    zIndex: 2e9, // The z-index (defaults to 2000000000)
+    top: 'auto', // Top position relative to parent in px
+   left: 'auto' // Left position relative to parent in px
+  };
 
 Enter a the URL of a school from placekeeper.com to find it's coordinates.
 %br

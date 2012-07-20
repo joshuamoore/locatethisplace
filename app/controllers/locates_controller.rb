@@ -20,25 +20,10 @@ class LocatesController < ApplicationController
 
         address = GoogleGeocoder.reverse_geocode([latitude.to_f, longitude.to_f])
 
-        result += "#{doc.css(".title").text}|#{latitude}|#{longitude}|#{address.street_address}|#{address.city}|#{address.state}|#{address.zip},".to_json
+        result += "#{doc.css(".title").text}|#{latitude}|#{longitude}|#{address.street_address}|#{address.city}|#{address.state}|#{address.zip},"
 
-        doc.css("a").each_with_index do |item, index|
-          if item.children.first.name == "strong" and /^\//.match(item[:href])
-            doc = Nokogiri::HTML(open("#{slug}#{item[:href]}"))
-            doc.css("td").each_with_index do |item, index|
-              if index == 15
-                school_info = item.text
-
-                latitude = /Latitude: ([+||-]?\d\d\.\d+)/.match(school_info)[1]
-                longitude = /Longitude: ([+||-]?\d\d\.\d+)/.match(school_info)[1]
-
-                address = GoogleGeocoder.reverse_geocode([latitude.to_f, longitude.to_f])
-
-                result += "#{doc.css(".title").text}|#{latitude}|#{longitude}|#{address.street_address}|#{address.city}|#{address.state}|#{address.zip},".to_json
-              end
-            end
-          end
-        end
+        limit = 4
+        result = recurse_locations(doc, slug, result, limit)
 
         render :text => result
       end
@@ -48,5 +33,31 @@ class LocatesController < ApplicationController
   private
   def current_object
     Locate.find(params[:id])
+  end
+
+  def recurse_locations(doc, slug, result, limit)
+    if limit == 0
+      return result
+    else
+      doc.css("a").each_with_index do |item, index|
+        if item.children.first.name == "strong" and /^\//.match(item[:href])
+          doc = Nokogiri::HTML(open("#{slug}#{item[:href]}"))
+          doc.css("td").each_with_index do |item, index|
+            if index == 15
+              school_info = item.text
+
+              latitude = /Latitude: ([+||-]?\d\d\.\d+)/.match(school_info)[1]
+              longitude = /Longitude: ([+||-]?\d\d\.\d+)/.match(school_info)[1]
+
+              address = GoogleGeocoder.reverse_geocode([latitude.to_f, longitude.to_f])
+
+              result += "#{doc.css(".title").text}|#{latitude}|#{longitude}|#{address.street_address}|#{address.city}|#{address.state}|#{address.zip}," unless result.include?(doc.css(".title").text)
+            end
+          end
+        end
+      end
+
+      recurse_locations(doc, slug, result, limit-1)
+    end
   end
 end
