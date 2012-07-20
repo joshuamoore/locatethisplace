@@ -12,12 +12,21 @@
 
         var display_results = results.split(',');
 
+        $('#search_results').append('<table>');
         for (count in display_results) {
           if(count % 2 == 0)
-            $('#search_results').append("<p class='stripe'>" + display_results[count].split('|').join(' ') + "</p>");
+            $('#search_results').append("<tr class='stripe'>");
           else
-            $('#search_results').append("<p>" + display_results[count].split('|').join(' ') + "</p>");
+            $('#search_results').append("<tr>");
+
+          var location_parts = display_results[count].split('|');
+          $('#search_results').append('<td>link</td>');
+          for (sub_count in location_parts) {
+            $('#search_results').append("<td>" + location_parts[sub_count] + "</td>");
+          }
+          $('#search_results').append("</tr>");
         }
+        $('#search_results').append('</table>');
       });
     } else {
       alert('You must enter a URL');
