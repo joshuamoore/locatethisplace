@@ -54,4 +54,3 @@ production:
   pool: 5
   username: root
   password:
-  host: xhrhcldang:o3ccRwmJtmqzUCxfoj8d@ec2-107-20-196-139.compute-1.amazonaws.com/xhrhcldang
