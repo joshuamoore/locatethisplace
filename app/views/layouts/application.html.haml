@@ -4,17 +4,20 @@
   %title Locate This Place
 
   = stylesheet_link_tag    "application", :media => "all"
-  = javascript_include_tag "application"
+  = javascript_include_tag "application", "bootstrap-alert"
   = csrf_meta_tags
 
 %body
   .navbar.navbar-fixed-top
     .navbar-inner
       .container
-        .brand Locate This Place
+        .brand
+          = link_to 'Locate This Place', root_path, :style => 'background-color:inherit;text-decoration:none;'
         %ul.nav
-          %li.active
-            %a Find a location
+          %li
+            = link_to 'View saved locations', root_path
+          %li
+            = link_to 'Find a location', locates_path
         -#%form.navbar-form.pull-right
           %input.search-query{ :type => 'text', :placeholder => 'Search' }
 
@@ -23,4 +26,5 @@
       .span3
         = render :partial => 'layouts/sidebar'
       .span9
+        = render :partial => 'layouts/alerts'
         = yield

@@ -1,0 +1,19 @@
+= "Your search query was:"
+= params[:locate][:url]
+
+%br
+%br
+
+%table{ :cellpadding => 6 }
+  - @result.split(',').each_with_index do |row, index|
+    %tr
+      %td
+        = image_tag 'download_alt_12px.png', :id => "save_#{index}"
+        :javascript
+          $("#save_#{index}").click(function() {
+            $.post("create_location?entry=#{row}", function(results) {});
+          });
+      - row.split('|').each do |column|
+        %td
+          = column
+

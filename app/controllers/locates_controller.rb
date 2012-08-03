@@ -4,13 +4,25 @@ class LocatesController < ApplicationController
   include Geokit::Geocoders
 
   make_resourceful do
-    actions :index
+    actions :index, :destroy
+  end
+
+  def create_location
+    entry = params[:entry].split('|')
+
+    locate = Locate.create(:name => entry[0], :lat => entry[1], :lng => entry[2], :address1 => entry[3], :city => entry[4], :state => entry[5], :zip => entry[6])
+
+    if locate.present?
+      respond_to do |wants|
+        wants.js
+      end
+    end
   end
 
   def find_school
     result = ""
     slug = "http://www.placekeeper.com"
-    doc = Nokogiri::HTML(open(params[:url]))
+    doc = Nokogiri::HTML(open(params[:locate][:url]))
     doc.css("td").each_with_index do |item, index|
       if index == 15
         school_info = item.text
@@ -25,16 +37,12 @@ class LocatesController < ApplicationController
         limit = 2
         result = recurse_locations(doc, slug, result, limit)
 
-        render :text => result
+        @result = result[0..-2]
       end
     end
   end
 
   private
-  def current_object
-    Locate.find(params[:id])
-  end
-
   def recurse_locations(doc, slug, result, limit)
     if limit == 0
       return result

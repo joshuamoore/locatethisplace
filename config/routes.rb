@@ -1,7 +1,8 @@
 MrScrapey::Application.routes.draw do
   resources :locates do
     collection do
-      get 'find_school'
+      post 'find_school'
+      post 'create_location'
     end
   end
 
@@ -54,7 +55,7 @@ MrScrapey::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => 'locates#index'
+  root :to => 'pages#index'
 
   # See how all your routes lay out with "rake routes"
 

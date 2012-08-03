@@ -14,10 +14,7 @@
 
         $('#search_results').append('<table>');
         for (count in display_results) {
-          if(count % 2 == 0)
-            $('#search_results').append("<tr class='stripe'>");
-          else
-            $('#search_results').append("<tr>");
+          $('#search_results').append("<tr class='stripe'>");
 
           var location_parts = display_results[count].split('|');
           $('#search_results').append('<td>link</td>');
@@ -52,12 +49,11 @@
 
 Enter a the URL of a school from placekeeper.com to find it's coordinates.
 %br
+http://www.placekeeper.com/Alabama/Samford_University-120474.html
+%br
 %br
   #search_schools
-    %input.search-query{ :id => 'school_search_text', :type => 'text', :placeholder => 'School URL', :style => 'width:700px;' }
-    %button.btn{ :style => 'margin-top:-10px;', :onclick => 'school_list();' } Search
-
-  %br
-  %br
-  #search_results
+    = form_for :locate, :url => find_school_locates_path do |f|
+      = f.text_field :url, :id => 'school_search_text', :class => 'search-query', :placeholder => 'School URL', :style => 'width:700px;'
+      = submit_tag 'Search', :class => 'btn', :style => 'margin-top:-10px;'
 

@@ -1,3 +1,21 @@
-Enter school name
-%br
+- if @locations.present?
+  %table
+    - @locations.each_with_index do |row, index|
+      %tr
+        %td
+          = "#{index + 1}"
+        %td
+          = row.name
+        %td
+          = row.address1
+        %td
+          = row.city
+        %td
+          = row.state
+        %td
+          = row.zip
+        %td
+          = link_to (image_tag 'bin-10x14.png'), locate_path(index)
 
+- else
+  No locations yet, click on the 'Find a location' menu item to begin.
